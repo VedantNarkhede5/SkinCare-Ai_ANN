@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SkinAI – Smart Skin Care Analyzer</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="logo">🌿 SkinAI</div>
+    <ul class="nav-links">
+      <li><a href="{% url 'logout' %}" class="logout-btn">Sign Out</a></li>
+      <li><a href="#">How It Works</a></li>
+      <li><a href="#">About</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <div class="hero-text">
+      <h1>Know Your Skin.<br><span>Transform Your Care.</span></h1>
+      <p>Upload your photo and our AI will analyze your skin — detecting dark spots, eye bags, skin type, and more — then give you a personalized routine.</p>
+    </div>
+    <div class="hero-image">
+      <img src="{% static 'images/hero.png' %}" alt="Skin Analysis" onerror="this.style.display='none'">
+    </div>
+  </section>
+
+  <!-- UPLOAD SECTION -->
+  <section class="upload-section">
+    <div class="upload-card">
+      <h2>📸 Upload Your Face Photo</h2>
+      <p class="subtitle">Clear, front-facing photo gives best results</p>
+        <form method="POST" action="/upload/" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <!-- your existing upload box -->
+            <div class="upload-box" id="uploadBox">
+                <div class="upload-icon">⬆️</div>
+                <p>Drag & Drop your photo here</p>
+                <p class="or-text">— or —</p>
+                <label for="photoInput" class="browse-btn">Browse Photo</label>
+                <input type="file" id="photoInput" name="photo" accept="image/*" hidden>
+                <p class="file-name" id="fileName">No file chosen</p>
+            </div>
+
+            <!-- Error message -->
+            {% if error %}
+                <p style="color:red; margin-top:10px;">{{ error }}</p>
+            {% endif %}
+            <!-- Privacy Notice -->
+            <div style="background:#fff0f5; border-radius:10px; padding:14px;
+                        margin-bottom:14px; text-align:left;">
+
+                <label style="display:flex; align-items:flex-start;
+                              gap:10px; cursor:pointer;">
+                    <input type="checkbox" id="consent" name="consent" required
+                          style="margin-top:3px; accent-color:#ff4f81;">
+                    <span style="color:#555; font-size:0.82rem; line-height:1.6;">
+                        I agree that my photo will be used only for skin analysis
+                        and will not be stored permanently.
+                        I have read the
+                        <a href="/privacy/" style="color:#ff4f81;">Privacy Policy</a>.
+                    </span>
+                </label>
+
+            </div>
+
+            <!-- Medical Disclaimer -->
+            <p style="color:#aaa; font-size:0.75rem; text-align:center; margin-bottom:12px;">
+                ⚕️ This is not a medical tool. Always consult a dermatologist
+                for medical concerns.
+            </p>
+            <button class="analyze-btn">
+                🔍 Analyze My Skin <span>→</span>
+            </button>
+        </form>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how-it-works">
+    <h2>How It Works</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-icon">📷</div>
+        <h3>Upload Photo</h3>
+        <p>Take or upload a clear front-facing photo of your face.</p>
+      </div>
+      <div class="step">
+        <div class="step-icon">🤖</div>
+        <h3>AI Analysis</h3>
+        <p>Our deep learning model scans for skin issues and type.</p>
+      </div>
+      <div class="step">
+        <div class="step-icon">📋</div>
+        <h3>Get Your Plan</h3>
+        <p>Receive a personalized routine, diet, and product plan.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>🌿 SkinAI &copy; 2025 — Free Skin Analysis Powered by AI</p>
+  </footer>
+
+  <script>
+    const input = document.getElementById('photoInput');
+    const fileName = document.getElementById('fileName');
+    const uploadBox = document.getElementById('uploadBox');
+    const previewBox = document.getElementById('previewBox');
+    const previewImg = document.getElementById('previewImg');
+    const removeBtn = document.getElementById('removeBtn');
+
+    input.addEventListener('change', function () {
+      if (this.files && this.files[0]) {
+        const file = this.files[0];
+        fileName.textContent = file.name;
+        const reader = new FileReader();
+        reader.onload = e => {
+          previewImg.src = e.target.result;
+          uploadBox.style.display = 'none';
+          previewBox.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    removeBtn.addEventListener('click', function () {
+      input.value = '';
+      fileName.textContent = 'No file chosen';
+      previewImg.src = '#';
+      uploadBox.style.display = 'flex';
+      previewBox.style.display = 'none';
+    });
+
+    // Drag & Drop
+    uploadBox.addEventListener('dragover', e => {
+      e.preventDefault();
+      uploadBox.classList.add('drag-over');
+    });
+    uploadBox.addEventListener('dragleave', () => uploadBox.classList.remove('drag-over'));
+    uploadBox.addEventListener('drop', e => {
+      e.preventDefault();
+      uploadBox.classList.remove('drag-over');
+      const file = e.dataTransfer.files[0];
+      if (file && file.type.startsWith('image/')) {
+        input.files = e.dataTransfer.files;
+        input.dispatchEvent(new Event('change'));
+      }
+    });
+  </script>
+
+</body>
+</html>

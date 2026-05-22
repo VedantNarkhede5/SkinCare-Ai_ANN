@@ -1,0 +1,813 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skin Analysis – SkinCare AI</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        /* ===== MODERN CLEAN UI - FIXED ZOOM LOOK ===== */
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
+
+        :root{
+            --primary:#6366f1;
+            --primary-dark:#4f46e5;
+            --secondary:#8b5cf6;
+            --bg:#f4f7fb;
+            --card:#ffffff;
+            --text:#1e293b;
+            --light-text:#64748b;
+            --border:#e2e8f0;
+            --shadow:0 8px 30px rgba(15,23,42,0.08);
+            --radius:18px;
+        }
+
+        body{
+            font-family:'Inter','Segoe UI',sans-serif;
+            background:linear-gradient(to bottom right,#f8fafc,#eef4ff);
+            color:var(--text);
+            line-height:1.6;
+            overflow-x:hidden;
+        }
+
+        /* ===== NAVBAR ===== */
+
+        .navbar{
+            width:100%;
+            padding:18px 7%;
+            background:rgba(255,255,255,0.9);
+            backdrop-filter:blur(12px);
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            border-bottom:1px solid var(--border);
+            position:sticky;
+            top:0;
+            z-index:100;
+        }
+
+        .logo{
+            font-size:1.5rem;
+            font-weight:800;
+            color:var(--primary);
+            letter-spacing:-0.5px;
+        }
+
+        .nav-links{
+            display:flex;
+            gap:20px;
+            list-style:none;
+            align-items:center;
+        }
+
+        .nav-links a{
+            text-decoration:none;
+            color:var(--light-text);
+            font-weight:600;
+            transition:.3s;
+        }
+
+        .nav-links a:hover{
+            color:var(--primary);
+        }
+
+        .logout-btn{
+            padding:10px 18px;
+            border-radius:10px;
+            background:linear-gradient(135deg,var(--primary),var(--secondary));
+            color:#fff !important;
+            box-shadow:0 6px 18px rgba(99,102,241,.25);
+        }
+
+        .logout-btn:hover{
+            transform:translateY(-2px);
+        }
+
+        /* ===== MAIN CONTAINER ===== */
+
+        .report-container{
+            width:min(1150px,92%);
+            margin:auto;
+            padding:40px 0 70px;
+        }
+
+        /* ===== HEADER ===== */
+
+        .report-header{
+            text-align:center;
+            margin-bottom:40px;
+        }
+
+        .report-header h2{
+            font-size:clamp(2rem,4vw,3rem);
+            font-weight:800;
+            margin-bottom:10px;
+            color:var(--text);
+        }
+
+        .report-header p{
+            color:var(--light-text);
+            font-size:1rem;
+        }
+
+        /* ===== IMAGE SECTION ===== */
+
+        /* ===== IMAGE SECTION ===== */
+
+        .image-container{
+            display:flex;
+            justify-content:center;
+            gap:20px;
+            flex-wrap:wrap;
+            margin-bottom:40px;
+        }
+
+        .image-box{
+            width:680px;   /* smaller fixed width */
+            background:#fff;
+            border-radius:16px;
+            padding:16px;
+            box-shadow:0 6px 20px rgba(0,0,0,0.08);
+            border:1px solid #e2e8f0;
+            transition:0.3s ease;
+        }
+
+        .image-box:hover{
+            transform:translateY(-5px);
+        }
+
+        .image-label{
+            font-size:0.9rem;
+            font-weight:700;
+            color:#6366f1;
+            margin-bottom:10px;
+        }
+
+        .image-box img{
+            width:100%;
+            height:420px;      /* fixed smaller height */
+            object-fit:cover;  /* keeps image proper */
+            border-radius:12px;
+        }
+
+        /* ===== MOBILE ===== */
+
+        @media(max-width:768px){
+
+            .image-box{
+                width:220px;
+            }
+
+            .image-box img{
+                height:180px;
+            }
+        }
+
+        @media(max-width:480px){
+
+            .image-box{
+                width:100%;
+                max-width:260px;
+            }
+
+            .image-box img{
+                height:160px;
+            }
+        }
+        /* ===== SCORE SECTION ===== */
+
+        .score-section{
+            text-align:center;
+            margin:50px 0;
+        }
+
+        .score-ring{
+            width:180px;
+            height:180px;
+            margin:auto;
+            border-radius:50%;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            background:
+            conic-gradient(var(--primary) 0% 75%, #dbeafe 75%);
+            position:relative;
+            box-shadow:0 15px 40px rgba(99,102,241,.25);
+        }
+
+        .score-ring::before{
+            content:'';
+            position:absolute;
+            width:140px;
+            height:140px;
+            background:#fff;
+            border-radius:50%;
+        }
+
+        .score-ring span{
+            position:relative;
+            z-index:2;
+            font-size:2.8rem;
+            font-weight:800;
+            color:var(--primary-dark);
+        }
+
+        .score-badge{
+            margin-top:20px;
+            display:inline-block;
+            padding:10px 24px;
+            border-radius:30px;
+            background:linear-gradient(135deg,var(--primary),var(--secondary));
+            color:#fff;
+            font-weight:700;
+            box-shadow:0 10px 25px rgba(99,102,241,.25);
+        }
+
+        .score-label{
+            margin-top:12px;
+            color:var(--light-text);
+        }
+
+        /* ===== METRICS ===== */
+
+        .metrics-grid{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+            gap:22px;
+            margin:40px 0;
+        }
+
+        .metric-card{
+            background:#fff;
+            border-radius:var(--radius);
+            padding:28px 20px;
+            text-align:center;
+            border:1px solid var(--border);
+            box-shadow:var(--shadow);
+            transition:.35s;
+        }
+
+        .metric-card:hover{
+            transform:translateY(-8px);
+            border-color:var(--primary);
+        }
+
+        .metric-icon{
+            font-size:2.5rem;
+            margin-bottom:10px;
+        }
+
+        .metric-label{
+            font-size:.78rem;
+            text-transform:uppercase;
+            color:var(--light-text);
+            font-weight:700;
+            letter-spacing:1px;
+        }
+
+        .metric-value{
+            font-size:1.5rem;
+            font-weight:800;
+            margin:12px 0;
+            color:var(--text);
+        }
+
+        .metric-tag{
+            display:inline-block;
+            padding:6px 14px;
+            border-radius:30px;
+            font-size:.75rem;
+            font-weight:700;
+        }
+
+        /* ===== TAG COLORS ===== */
+
+        .tag-clear,
+        .tag-balanced{
+            background:#dcfce7;
+            color:#166534;
+        }
+
+        .tag-mild{
+            background:#fef9c3;
+            color:#854d0e;
+        }
+
+        .tag-moderate,
+        .tag-oily{
+            background:#ffedd5;
+            color:#c2410c;
+        }
+
+        .tag-severe{
+            background:#fee2e2;
+            color:#991b1b;
+        }
+
+        .tag-dry{
+            background:#dbeafe;
+            color:#1d4ed8;
+        }
+
+        /* ===== PROGRESS ===== */
+
+        .progress-section{
+            background:#fff;
+            border-radius:var(--radius);
+            padding:30px;
+            box-shadow:var(--shadow);
+            border:1px solid var(--border);
+            margin-bottom:35px;
+        }
+
+        .progress-title{
+            font-size:1rem;
+            font-weight:700;
+            margin-bottom:16px;
+        }
+
+        .progress-bar-container{
+            height:16px;
+            background:#e2e8f0;
+            border-radius:50px;
+            overflow:hidden;
+        }
+
+        .progress-bar{
+            height:100%;
+            width:75%;
+            border-radius:50px;
+            background:linear-gradient(90deg,var(--primary),var(--secondary));
+        }
+
+        .progress-labels{
+            display:flex;
+            justify-content:space-between;
+            margin-top:10px;
+            color:var(--light-text);
+            font-size:.8rem;
+        }
+
+        /* ===== INFO BOX ===== */
+
+        .info-box{
+            padding:30px;
+            border-radius:var(--radius);
+            background:linear-gradient(135deg,var(--primary),var(--secondary));
+            color:#fff;
+            box-shadow:0 15px 40px rgba(99,102,241,.2);
+            margin-bottom:35px;
+        }
+
+        /* ===== SECTION CARD ===== */
+
+        .section-card{
+            background:#fff;
+            border-radius:var(--radius);
+            padding:30px;
+            margin-bottom:25px;
+            border:1px solid var(--border);
+            box-shadow:var(--shadow);
+        }
+
+        .section-card h4{
+            font-size:1.2rem;
+            margin-bottom:20px;
+            font-weight:800;
+        }
+
+        .routine-step{
+            display:flex;
+            gap:14px;
+            padding:14px 0;
+            border-bottom:1px solid #edf2f7;
+        }
+
+        .routine-step:last-child{
+            border:none;
+        }
+
+        .step-counter{
+            min-width:32px;
+            height:32px;
+            border-radius:50%;
+            background:linear-gradient(135deg,var(--primary),var(--secondary));
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            color:#fff;
+            font-size:.9rem;
+            font-weight:700;
+        }
+
+        .routine-text{
+            color:var(--light-text);
+        }
+
+        /* ===== FOOD GRID ===== */
+
+        .food-grid{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+            gap:20px;
+        }
+
+        .food-column{
+            background:#f8fafc;
+            padding:20px;
+            border-radius:14px;
+        }
+
+        .food-column.eat{
+            border-left:5px solid #22c55e;
+        }
+
+        .food-column.avoid{
+            border-left:5px solid #ef4444;
+        }
+
+        .food-column-title{
+            font-weight:700;
+            margin-bottom:12px;
+        }
+
+        .food-item{
+            padding:6px 0;
+            color:var(--light-text);
+        }
+
+        /* ===== PRODUCTS ===== */
+
+        .products-container{
+            display:flex;
+            flex-wrap:wrap;
+            gap:12px;
+        }
+
+        .product-tag{
+            padding:10px 16px;
+            border-radius:40px;
+            border:1px solid #c7d2fe;
+            background:#eef2ff;
+            color:var(--primary-dark);
+            font-weight:600;
+            transition:.3s;
+        }
+
+        .product-tag:hover{
+            background:var(--primary);
+            color:#fff;
+        }
+
+        /* ===== BUTTON ===== */
+
+        .back-button{
+            display:inline-flex;
+            justify-content:center;
+            align-items:center;
+            width:100%;
+            margin-top:20px;
+            padding:16px;
+            border-radius:14px;
+            text-decoration:none;
+            background:linear-gradient(135deg,var(--primary),var(--secondary));
+            color:#fff;
+            font-weight:700;
+            transition:.3s;
+            box-shadow:0 12px 28px rgba(99,102,241,.25);
+        }
+
+        .back-button:hover{
+            transform:translateY(-3px);
+        }
+
+        /* ===== ERROR CARD ===== */
+
+        .error-card{
+            background:#fff;
+            padding:45px 30px;
+            border-radius:var(--radius);
+            text-align:center;
+            box-shadow:var(--shadow);
+        }
+
+        /* ===== RESPONSIVE ===== */
+
+        @media(max-width:768px){
+
+            .navbar{
+                padding:16px 5%;
+            }
+
+            .nav-links{
+                gap:14px;
+            }
+
+            .score-ring{
+                width:150px;
+                height:150px;
+            }
+
+            .score-ring::before{
+                width:115px;
+                height:115px;
+            }
+
+            .score-ring span{
+                font-size:2.2rem;
+            }
+
+            .section-card{
+                padding:22px;
+            }
+        }
+
+        @media(max-width:480px){
+
+            .navbar{
+                flex-direction:column;
+                gap:12px;
+            }
+
+            .nav-links{
+                flex-wrap:wrap;
+                justify-content:center;
+            }
+
+            .report-header h2{
+                font-size:1.8rem;
+            }
+
+            .metric-card{
+                padding:22px 16px;
+            }
+
+            .score-ring{
+                width:130px;
+                height:130px;
+            }
+
+            .score-ring::before{
+                width:95px;
+                height:95px;
+            }
+
+            .score-ring span{
+                font-size:1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="logo">🏥 SkinCare AI</div>
+    <ul class="nav-links">
+      <li><a href="{% url 'logout' %}" class="logout-btn">Sign Out</a></li>
+      <li><a href="#">Treatments</a></li>
+      <li><a href="#">About</a></li>
+    </ul>
+</nav>
+
+{% if result.face_found %}
+
+<!-- REPORT CONTAINER -->
+<div class="report-container">
+
+    <!-- HEADER -->
+    <div class="report-header">
+        <h2>🔬 Your Skin Analysis Report</h2>
+        <p>Professional AI-Powered Skin Assessment • Step 5 of 8</p>
+    </div>
+
+    <!-- IMAGES ROW -->
+    <div class="image-container">
+        <div class="image-box">
+            <div class="image-label">🔬 Analyzed Photo</div>
+            <img src="{{ result.processed_image_url }}" alt="Analyzed">
+        </div>
+    </div>
+
+    <!-- SCORE SECTION -->
+    <div class="score-section">
+        <div class="score-ring"><span>{{ result.skin_quality_score }}</span></div>
+        <div class="score-badge">Score • {{ result.skin_quality_score }} / 100</div>
+        <div class="score-label">Overall Skin Health Score</div>
+    </div>
+
+    <!-- METRICS GRID -->
+    <div class="metrics-grid">
+
+        <!-- Skin Type -->
+        <div class="metric-card">
+            <div class="metric-icon">💧</div>
+            <div class="metric-label">Skin Type</div>
+            <div class="metric-value">{{ result.skin_type }}</div>
+            {% if result.skin_type == 'Oily' %}
+                <span class="metric-tag tag-oily">High Oil</span>
+            {% elif result.skin_type == 'Dry' %}
+                <span class="metric-tag tag-dry">Low Moisture</span>
+            {% else %}
+                <span class="metric-tag tag-balanced">Balanced</span>
+            {% endif %}
+        </div>
+
+        <!-- Skin Tone -->
+        <div class="metric-card">
+            <div class="metric-icon">🎨</div>
+            <div class="metric-label">Skin Tone</div>
+            <div class="metric-value">{{ result.skin_tone }}</div>
+            <span class="metric-tag" style="background: #e8f4f8; color: #2c5aa0;">Natural</span>
+        </div>
+
+        <!-- Dark Spots -->
+        <div class="metric-card">
+            <div class="metric-icon">🔵</div>
+            <div class="metric-label">Dark Spots</div>
+            <div class="metric-value">{{ result.dark_spots }}</div>
+            <div style="font-size: 0.8rem; color: #7f8c8d; margin: 4px 0;">{{ result.dark_spot_count }} spots</div>
+            {% if result.dark_spots == 'None' %}
+                <span class="metric-tag tag-clear">Clear</span>
+            {% elif result.dark_spots == 'Mild' %}
+                <span class="metric-tag tag-mild">Mild</span>
+            {% elif result.dark_spots == 'Moderate' %}
+                <span class="metric-tag tag-moderate">Moderate</span>
+            {% else %}
+                <span class="metric-tag tag-severe">Severe</span>
+            {% endif %}
+        </div>
+
+        <!-- Eye Bags -->
+        <div class="metric-card">
+            <div class="metric-icon">👁️</div>
+            <div class="metric-label">Eye Bags</div>
+            <div class="metric-value">{{ result.eye_bags }}</div>
+            {% if result.eye_bags == 'None' %}
+                <span class="metric-tag tag-clear">Clear</span>
+            {% elif result.eye_bags == 'Mild' %}
+                <span class="metric-tag tag-mild">Mild</span>
+            {% elif result.eye_bags == 'Moderate' %}
+                <span class="metric-tag tag-moderate">Moderate</span>
+            {% else %}
+                <span class="metric-tag tag-severe">Severe</span>
+            {% endif %}
+        </div>
+
+        <!-- Skin Quality -->
+        <div class="metric-card">
+            <div class="metric-icon">⭐</div>
+            <div class="metric-label">Overall Quality</div>
+            <div class="metric-value" style="color: #667eea;">{{ result.skin_quality }}</div>
+            <span class="metric-tag" style="background: #e8f2ff; color: #667eea;">{{ result.skin_quality_score }}/100</span>
+        </div>
+
+    </div>
+
+    <!-- PROGRESS BAR -->
+    <div class="progress-section">
+        <div class="progress-title">📊 Skin Health Progress</div>
+        <div class="progress-bar-container">
+            <div class="progress-bar" style="width: {{ result.skin_quality_score }}%;"></div>
+        </div>
+        <div class="progress-labels">
+            <span>0 — Needs Care</span>
+            <span>50 — Fair</span>
+            <span>100 — Excellent</span>
+        </div>
+    </div>
+
+    <!-- INFO BOX -->
+    <div class="info-box">
+        <p>🤖 <strong>Next Step:</strong> Based on your skin analysis, our AI will generate your personalized <strong>Daily Routine</strong>, <strong>Nutrition Plan</strong>, <strong>Product Recommendations</strong> and <strong>Wellness Guide</strong>.</p>
+    </div>
+
+    <!-- ══════════════════════════════ RECOMMENDATIONS ══════════════════════════════ -->
+
+    {% if recommendations %}
+
+    <!-- Morning Routine -->
+    <div class="section-card" style="animation-delay: 0.1s;">
+        <h4>🌅 Morning Routine</h4>
+        {% for step in recommendations.morning_routine %}
+        <div class="routine-step">
+            <div class="step-counter">{{ forloop.counter }}</div>
+            <p class="routine-text">{{ step }}</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Night Routine -->
+    <div class="section-card" style="animation-delay: 0.15s;">
+        <h4>🌙 Night Routine</h4>
+        {% for step in recommendations.night_routine %}
+        <div class="routine-step">
+            <div class="step-counter">{{ forloop.counter }}</div>
+            <p class="routine-text">{{ step }}</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Food Plan -->
+    <div class="section-card" style="animation-delay: 0.2s;">
+        <h4>🥗 Nutrition Plan</h4>
+        <div class="food-grid">
+            <!-- Eat -->
+            <div class="food-column eat">
+                <div class="food-column-title">✅ Eat More</div>
+                {% for food in recommendations.foods_eat %}
+                <div class="food-item">
+                    <span class="food-dot">●</span>
+                    <span>{{ food }}</span>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Avoid -->
+            <div class="food-column avoid">
+                <div class="food-column-title">❌ Avoid</div>
+                {% for food in recommendations.foods_avoid %}
+                <div class="food-item">
+                    <span class="food-dot">●</span>
+                    <span>{{ food }}</span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Products -->
+    <div class="section-card" style="animation-delay: 0.25s;">
+        <h4>🧴 Recommended Products</h4>
+        <div class="products-container">
+            {% for product in recommendations.products %}
+            <span class="product-tag">🛒 {{ product }}</span>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Workout -->
+    <div class="section-card" style="animation-delay: 0.3s;">
+        <h4>💪 Wellness Plan</h4>
+        {% for tip in recommendations.workout %}
+        <div class="routine-step">
+            <span style="font-size: 1.2rem;">🏃</span>
+            <p class="routine-text">{{ tip }}</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Dark Spot Tips -->
+    <div class="section-card" style="animation-delay: 0.35s;">
+        <h4>🔵 Dark Spot Treatment</h4>
+        {% for tip in recommendations.dark_spot_tips %}
+        <div class="routine-step">
+            <span style="font-size: 1.2rem;">💡</span>
+            <p class="routine-text">{{ tip }}</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Eye Bag Tips -->
+    <div class="section-card" style="animation-delay: 0.4s;">
+        <h4>👁️ Eye Bag Treatment</h4>
+        {% for tip in recommendations.eye_bag_tips %}
+        <div class="routine-step">
+            <span style="font-size: 1.2rem;">💡</span>
+            <p class="routine-text">{{ tip }}</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% endif %}
+
+    <!-- BACK BUTTON -->
+    <a href="/" class="back-button">⬅ Upload Another Photo</a>
+
+</div>
+
+{% else %}
+
+<!-- ERROR STATE -->
+<div class="error-container">
+    <div class="error-card">
+        <div class="error-emoji">😕</div>
+        <h3>{{ result.message }}</h3>
+        <p>
+            Please upload a <strong>clear, front-facing photo</strong>
+            in good lighting without glasses or obstructions.
+        </p>
+        <a href="/" class="back-button">⬅ Try Again</a>
+    </div>
+</div>
+
+{% endif %}
+
+</body>
+</html>

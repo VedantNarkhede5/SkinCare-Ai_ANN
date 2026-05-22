@@ -1,0 +1,227 @@
+{
+    "skin_type": {
+        "Oily": {
+            "routine": {
+                "morning": [
+                    "Wash face with gentle foaming cleanser",
+                    "Apply oil-free toner",
+                    "Use lightweight oil-free moisturizer",
+                    "Apply SPF 30+ sunscreen"
+                ],
+                "night": [
+                    "Double cleanse with micellar water then foaming cleanser",
+                    "Apply salicylic acid serum",
+                    "Use lightweight gel moisturizer",
+                    "Apply retinol 2-3 times per week"
+                ]
+            },
+            "foods": {
+                "eat": [
+                    "Green leafy vegetables",
+                    "Cucumber and celery",
+                    "Green tea",
+                    "Whole grains",
+                    "Zinc-rich foods like pumpkin seeds",
+                    "Omega-3 rich fish like salmon"
+                ],
+                "avoid": [
+                    "Fried and oily foods",
+                    "Dairy products",
+                    "Sugar and sweets",
+                    "Fast food",
+                    "White bread and refined carbs"
+                ]
+            },
+            "products": [
+                "CeraVe Foaming Facial Cleanser",
+                "The Ordinary Niacinamide 10% + Zinc 1%",
+                "Neutrogena Oil-Free Moisturizer",
+                "La Roche-Posay Effaclar Toner",
+                "Paula's Choice BHA Exfoliant"
+            ],
+            "workout": [
+                "30 min cardio daily to reduce cortisol",
+                "Yoga for stress reduction",
+                "Avoid heavy makeup during workout",
+                "Wash face immediately after workout",
+                "Stay hydrated with 8-10 glasses water"
+            ]
+        },
+        "Dry": {
+            "routine": {
+                "morning": [
+                    "Wash with gentle creamy cleanser",
+                    "Apply hydrating toner with hyaluronic acid",
+                    "Use vitamin C serum",
+                    "Apply rich moisturizer",
+                    "Apply SPF 50 sunscreen"
+                ],
+                "night": [
+                    "Wash with gentle non-foaming cleanser",
+                    "Apply hyaluronic acid serum",
+                    "Use rich nourishing night cream",
+                    "Apply facial oil like rosehip oil",
+                    "Use lip balm before sleep"
+                ]
+            },
+            "foods": {
+                "eat": [
+                    "Avocado rich in healthy fats",
+                    "Olive oil",
+                    "Nuts like almonds and walnuts",
+                    "Sweet potato",
+                    "Coconut water",
+                    "Fatty fish like mackerel",
+                    "Eggs for biotin"
+                ],
+                "avoid": [
+                    "Alcohol",
+                    "Caffeine in excess",
+                    "Salty foods",
+                    "Processed foods",
+                    "Hot showers"
+                ]
+            },
+            "products": [
+                "Cetaphil Gentle Skin Cleanser",
+                "Neutrogena Hydro Boost Water Gel",
+                "The Ordinary Hyaluronic Acid 2% + B5",
+                "CeraVe Moisturizing Cream",
+                "Rosehip Oil by Trilogy"
+            ],
+            "workout": [
+                "Swimming is great for dry skin",
+                "Low intensity yoga and stretching",
+                "Moisturize before and after workout",
+                "Avoid hot showers post workout",
+                "Drink plenty of water during exercise"
+            ]
+        },
+        "Normal": {
+            "routine": {
+                "morning": [
+                    "Wash face with gentle cleanser",
+                    "Apply balancing toner",
+                    "Use vitamin C serum",
+                    "Apply medium-weight moisturizer",
+                    "Apply SPF 30 sunscreen"
+                ],
+                "night": [
+                    "Cleanse face thoroughly",
+                    "Apply niacinamide serum",
+                    "Use retinol serum twice a week",
+                    "Apply night moisturizer"
+                ]
+            },
+            "foods": {
+                "eat": [
+                    "Fresh fruits and vegetables",
+                    "Berries for antioxidants",
+                    "Green tea",
+                    "Lean protein like chicken and fish",
+                    "Whole grains",
+                    "Plenty of water"
+                ],
+                "avoid": [
+                    "Excess sugar",
+                    "Alcohol",
+                    "Processed junk food",
+                    "Too much caffeine"
+                ]
+            },
+            "products": [
+                "Simple Kind to Skin Cleanser",
+                "Pixi Glow Tonic",
+                "The Ordinary Vitamin C Suspension",
+                "Olay Moisturizer SPF 30",
+                "Niacinamide serum by INKEY List"
+            ],
+            "workout": [
+                "Any exercise is great for normal skin",
+                "30 min brisk walk or jog daily",
+                "Cleanse face after heavy sweating",
+                "Drink 8 glasses of water daily",
+                "Yoga for overall skin glow"
+            ]
+        }
+    },
+    "dark_spots": {
+        "None": {
+            "tips": [
+                "Keep using SPF daily to prevent spots",
+                "Maintain your current skincare routine",
+                "Stay hydrated for clear skin"
+            ]
+        },
+        "Mild": {
+            "tips": [
+                "Apply vitamin C serum every morning",
+                "Never skip sunscreen SPF 30+",
+                "Use niacinamide serum at night",
+                "Avoid picking or touching face"
+            ]
+        },
+        "Moderate": {
+            "tips": [
+                "Use alpha arbutin serum twice daily",
+                "Apply kojic acid cream at night",
+                "Use SPF 50+ sunscreen every day",
+                "Consider chemical exfoliation weekly",
+                "Consult a dermatologist"
+            ]
+        },
+        "Severe": {
+            "tips": [
+                "Consult a dermatologist immediately",
+                "Use prescribed hydroquinone cream",
+                "Apply SPF 50+ sunscreen strictly",
+                "Avoid sun exposure between 10am-4pm",
+                "Consider professional treatments"
+            ]
+        }
+    },
+    "eye_bags": {
+        "None": {
+            "tips": [
+                "Maintain good sleep of 7-8 hours",
+                "Keep using eye cream as prevention"
+            ]
+        },
+        "Mild": {
+            "tips": [
+                "Sleep 7-8 hours every night",
+                "Apply cold cucumber slices on eyes",
+                "Use caffeine eye cream in morning",
+                "Reduce salt intake",
+                "Elevate head while sleeping"
+            ]
+        },
+        "Moderate": {
+            "tips": [
+                "Use retinol eye cream at night",
+                "Apply cold spoons or ice on eyes",
+                "Reduce alcohol and caffeine",
+                "Increase water intake to 10 glasses",
+                "Do facial massage around eyes",
+                "Use vitamin K eye cream"
+            ]
+        },
+        "Severe": {
+            "tips": [
+                "Consult a dermatologist",
+                "Consider under eye filler consultation",
+                "Use prescribed eye treatment cream",
+                "Cold compress twice daily",
+                "Improve sleep schedule strictly",
+                "Allergy test recommended"
+            ]
+        },
+        "Not Detected": {
+            "tips": [
+                "Upload a clearer photo for eye analysis",
+                "Maintain good sleep habits",
+                "Use eye cream as prevention"
+            ]
+        }
+    }
+}

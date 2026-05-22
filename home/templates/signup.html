@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SkinAI – Create Account</title>
+  {% load static %}
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Nunito:wght@300;400;500;600&display=swap');
+    :root {
+      --green-deep:#1E3A2F; --green-mid:#2D5A42; --green-light:#4A8C64;
+      --sage:#8FBC8B; --cream:#F8F4EE; --warm-white:#FDFAF6;
+      --gold:#C9A96E; --text-dark:#1A2E25; --text-muted:#6B8577; --red:#C0392B;
+    }
+    body {
+      font-family:'Nunito',sans-serif; background:var(--cream);
+      color:var(--text-dark); min-height:100vh;
+      display:flex; align-items:center; justify-content:center; padding:24px;
+    }
+    body::before {
+      content:''; position:fixed; top:0; left:0; right:0; bottom:0;
+      background: radial-gradient(ellipse 60% 50% at 80% 20%, rgba(74,140,100,.08) 0%, transparent 60%),
+                  radial-gradient(ellipse 50% 40% at 20% 80%, rgba(201,169,110,.06) 0%, transparent 60%);
+      z-index:0; pointer-events:none;
+    }
+    .card {
+      position:relative; z-index:1; background:#fff; border-radius:20px;
+      box-shadow:0 12px 60px rgba(30,58,47,.1); width:100%; max-width:480px;
+      overflow:hidden; animation:slideUp .6s ease both;
+    }
+    @keyframes slideUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+    .card-top {
+      background:linear-gradient(135deg,var(--green-deep),var(--green-mid));
+      padding:32px 40px 28px; position:relative; overflow:hidden;
+    }
+    .card-top::after {
+      content:'🍃'; position:absolute; font-size:100px; opacity:0.07;
+      bottom:-20px; right:-10px; transform:rotate(-10deg);
+    }
+    .brand { display:flex; align-items:center; gap:8px; margin-bottom:16px; }
+    .brand-icon {
+      width:30px; height:30px; border-radius:8px;
+      background:linear-gradient(135deg,var(--sage),var(--gold));
+      display:flex; align-items:center; justify-content:center; font-size:15px;
+    }
+    .brand-name { font-family:'Playfair Display',serif; font-size:18px; color:#fff; }
+    .card-top h1 { font-family:'Playfair Display',serif; font-size:30px; font-weight:400; color:#fff; margin-bottom:4px; }
+    .card-top p  { font-size:13px; color:rgba(255,255,255,.65); }
+    .card-body { padding:36px 40px 40px; }
+    .back-link {
+      display:inline-flex; align-items:center; gap:6px; font-size:13px;
+      color:var(--text-muted); text-decoration:none; margin-bottom:28px; transition:color .2s;
+    }
+    .back-link:hover { color:var(--green-mid); }
+    .msg { padding:12px 16px; border-radius:8px; font-size:13px; margin-bottom:16px; display:flex; align-items:center; gap:8px; }
+    .msg-error   { background:#FEF0EF; color:var(--red); border-left:3px solid var(--red); }
+    .msg-success { background:#EFF7F2; color:var(--green-mid); border-left:3px solid var(--green-mid); }
+    .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    .form-group { margin-bottom:18px; }
+    label { display:block; font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--text-muted); margin-bottom:8px; }
+    input[type=text], input[type=email], input[type=password] {
+      width:100%; padding:13px 16px; border:1.5px solid rgba(30,58,47,.12);
+      border-radius:10px; font-family:'Nunito',sans-serif; font-size:14px;
+      color:var(--text-dark); background:var(--cream); outline:none; transition:all .2s;
+    }
+    input:focus { border-color:var(--green-light); box-shadow:0 0 0 3px rgba(74,140,100,.1); background:#fff; }
+    /* strength bar */
+    .strength-wrap { margin-top:8px; }
+    .strength-bar { height:4px; border-radius:2px; background:rgba(30,58,47,.08); overflow:hidden; }
+    .strength-fill { height:100%; border-radius:2px; width:0%; transition:width .3s,background .3s; }
+    .strength-text { font-size:11px; color:var(--text-muted); margin-top:4px; }
+    .terms-row {
+      display:flex; align-items:flex-start; gap:10px;
+      font-size:13px; color:var(--text-muted); margin:20px 0 28px; line-height:1.5;
+    }
+    .terms-row input { margin-top:2px; flex-shrink:0; accent-color:var(--green-mid); }
+    .terms-row a { color:var(--green-mid); text-decoration:none; font-weight:600; }
+    .btn-submit {
+      width:100%; padding:15px; background:linear-gradient(135deg,var(--green-mid),var(--green-light));
+      color:#fff; border:none; border-radius:10px; font-family:'Nunito',sans-serif;
+      font-size:15px; font-weight:700; cursor:pointer; letter-spacing:.3px;
+      box-shadow:0 6px 20px rgba(45,90,66,.3); transition:all .25s ease;
+    }
+    .btn-submit:hover { transform:translateY(-2px); box-shadow:0 10px 28px rgba(45,90,66,.4); }
+    .footer-note { text-align:center; margin-top:24px; font-size:13px; color:var(--text-muted); }
+    .footer-note a { color:var(--green-mid); text-decoration:none; font-weight:700; }
+    .footer-note a:hover { text-decoration:underline; }
+    @media(max-width:480px) { .grid-2 { grid-template-columns:1fr; } .card-body { padding:28px 24px; } }
+  </style>
+</head>
+<body>
+<div class="card">
+  <div class="card-top">
+    <div class="brand">
+      <div class="brand-icon">🌿</div>
+      <span class="brand-name">SkinAI</span>
+    </div>
+    <h1>Create Account</h1>
+    <p>Start your personalised skincare journey today</p>
+  </div>
+
+  <div class="card-body">
+    <a href="{% url 'welcome' %}" class="back-link">← Back to Home</a>
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="msg msg-{{ message.tags }}">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+
+    <form method="POST" action="{% url 'signup' %}">
+      {% csrf_token %}
+
+      <div class="grid-2">
+        <div class="form-group">
+          <label for="first_name">First Name</label>
+          <input type="text" id="first_name" name="first_name" placeholder="Jane" required value="{{ request.POST.first_name|default:'' }}"/>
+        </div>
+        <div class="form-group">
+          <label for="last_name">Last Name</label>
+          <input type="text" id="last_name" name="last_name" placeholder="Doe" value="{{ request.POST.last_name|default:'' }}"/>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" placeholder="Choose a username" required value="{{ request.POST.username|default:'' }}"/>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" placeholder="jane@example.com" required value="{{ request.POST.email|default:'' }}"/>
+      </div>
+
+      <div class="form-group">
+        <label for="password1">Password</label>
+        <input type="password" id="password1" name="password1" placeholder="Min. 8 characters" required oninput="checkStrength(this.value)"/>
+        <div class="strength-wrap">
+          <div class="strength-bar"><div class="strength-fill" id="sFill"></div></div>
+          <div class="strength-text" id="sText"></div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password2">Confirm Password</label>
+        <input type="password" id="password2" name="password2" placeholder="Repeat your password" required/>
+      </div>
+
+      <label class="terms-row">
+        <input type="checkbox" name="terms" required/>
+        I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+      </label>
+
+      <button type="submit" class="btn-submit">Create Account →</button>
+    </form>
+
+    <p class="footer-note">Already have an account? <a href="{% url 'login' %}">Sign in</a></p>
+  </div>
+</div>
+
+<script>
+function checkStrength(v) {
+  const fill = document.getElementById('sFill');
+  const text = document.getElementById('sText');
+  let s = 0;
+  if (v.length >= 8)         s++;
+  if (/[A-Z]/.test(v))       s++;
+  if (/[0-9]/.test(v))       s++;
+  if (/[^A-Za-z0-9]/.test(v)) s++;
+  const w = ['0%','25%','50%','75%','100%'][s];
+  const c = ['#ccc','#E8905A','#C9A96E','#7BAE7F','#4A8C64'][s];
+  const l = ['','Weak','Fair','Good','Strong'][s];
+  fill.style.width = w; fill.style.background = c;
+  text.textContent = l ? 'Password strength: ' + l : '';
+  text.style.color = c;
+}
+</script>
+</body>
+</html>

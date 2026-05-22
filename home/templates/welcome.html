@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SkinAI – Smart Skin Care Analyzer</title>
+  {% load static %}
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --green-deep:  #1E3A2F;
+      --green-mid:   #2D5A42;
+      --green-light: #4A8C64;
+      --sage:        #8FBC8B;
+      --cream:       #F8F4EE;
+      --warm-white:  #FDFAF6;
+      --gold:        #C9A96E;
+      --text-dark:   #1A2E25;
+      --text-muted:  #6B8577;
+    }
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Nunito:wght@300;400;500;600&display=swap');
+    html, body { height: 100%; }
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--cream);
+      color: var(--text-dark);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    .bg-blob {
+      position: fixed; border-radius: 50%; filter: blur(80px);
+      opacity: 0.12; animation: drift 12s ease-in-out infinite alternate;
+      pointer-events: none; z-index: 0;
+    }
+    .blob1 { width:500px; height:500px; background:var(--green-light); top:-100px; left:-100px; }
+    .blob2 { width:400px; height:400px; background:var(--gold); bottom:-80px; right:-80px; animation-delay:-4s; }
+    .blob3 { width:300px; height:300px; background:var(--sage); top:40%; left:60%; animation-delay:-8s; }
+    @keyframes drift {
+      from { transform: translate(0,0) scale(1); }
+      to   { transform: translate(40px,30px) scale(1.08); }
+    }
+    .page-wrap {
+      position: relative; z-index: 1; min-height: 100vh;
+      display: grid; grid-template-columns: 1fr 1fr;
+    }
+    .left-panel {
+      background: linear-gradient(145deg, var(--green-deep) 0%, var(--green-mid) 55%, #3A7054 100%);
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 64px 72px; position: relative; overflow: hidden;
+    }
+    .left-panel::before {
+      content:''; position:absolute; width:380px; height:380px;
+      border-radius:50%; border:1px solid rgba(143,188,139,.2);
+      top:-100px; right:-100px;
+    }
+    .left-panel::after {
+      content:''; position:absolute; width:200px; height:200px;
+      border-radius:50%; border:1px solid rgba(201,169,110,.15);
+      bottom:60px; left:-60px;
+    }
+    .leaf { position:absolute; font-size:80px; opacity:0.06; }
+    .leaf1 { top:30px; right:30px; transform:rotate(25deg); }
+    .leaf2 { bottom:40px; right:60px; transform:rotate(-15deg); font-size:120px; }
+    .brand-mark { display:flex; align-items:center; gap:10px; margin-bottom:60px; }
+    .brand-icon {
+      width:36px; height:36px; background:linear-gradient(135deg,var(--sage),var(--gold));
+      border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:18px;
+    }
+    .brand-name { font-family:'Playfair Display',serif; font-size:22px; color:var(--warm-white); letter-spacing:1px; }
+    .hero-tag {
+      display:inline-block; font-size:11px; font-weight:600; letter-spacing:3px;
+      text-transform:uppercase; color:var(--sage); border:1px solid rgba(143,188,139,.35);
+      padding:5px 14px; border-radius:20px; margin-bottom:28px;
+    }
+    .hero-heading {
+      font-family:'Playfair Display',serif; font-size:clamp(36px,4vw,56px);
+      font-weight:400; line-height:1.15; color:var(--warm-white); margin-bottom:24px;
+    }
+    .hero-heading em { font-style:italic; color:var(--gold); }
+    .hero-desc { font-size:15px; font-weight:300; line-height:1.8; color:rgba(253,250,246,.65); max-width:380px; margin-bottom:52px; }
+    .feature-list { display:flex; flex-direction:column; gap:14px; }
+    .feature-item { display:flex; align-items:center; gap:12px; font-size:14px; color:rgba(253,250,246,.75); }
+    .feature-dot {
+      width:28px; height:28px; border-radius:8px; background:rgba(143,188,139,.15);
+      border:1px solid rgba(143,188,139,.25); display:flex; align-items:center;
+      justify-content:center; font-size:13px; flex-shrink:0;
+    }
+    .right-panel {
+      display:flex; flex-direction:column; justify-content:center; align-items:center;
+      padding:64px 72px; background:var(--warm-white); position:relative;
+    }
+    .right-panel::before {
+      content:''; position:absolute; top:0; left:0; width:1px; height:100%;
+      background:linear-gradient(to bottom, transparent, rgba(45,90,66,.1) 30%, rgba(45,90,66,.1) 70%, transparent);
+    }
+    .welcome-card { width:100%; max-width:380px; animation:slideUp .7s ease both; }
+    @keyframes slideUp {
+      from { opacity:0; transform:translateY(24px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    .welcome-eyebrow { font-size:11px; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:var(--green-light); margin-bottom:12px; }
+    .welcome-title { font-family:'Playfair Display',serif; font-size:36px; font-weight:400; color:var(--text-dark); margin-bottom:8px; line-height:1.2; }
+    .welcome-sub { font-size:14px; color:var(--text-muted); margin-bottom:44px; line-height:1.6; }
+    .action-btn {
+      display:flex; align-items:center; justify-content:space-between;
+      width:100%; padding:17px 24px; border-radius:12px;
+      font-family:'Nunito',sans-serif; font-size:15px; font-weight:600;
+      text-decoration:none; cursor:pointer; transition:all .25s ease;
+      border:none; margin-bottom:14px;
+    }
+    .btn-primary {
+      background:linear-gradient(135deg,var(--green-mid),var(--green-light));
+      color:#fff; box-shadow:0 6px 24px rgba(45,90,66,.3);
+    }
+    .btn-primary:hover { transform:translateY(-2px); box-shadow:0 10px 32px rgba(45,90,66,.4); }
+    .btn-outline { background:transparent; color:var(--text-dark); border:1.5px solid rgba(30,58,47,.15); }
+    .btn-outline:hover { border-color:var(--green-light); color:var(--green-mid); transform:translateY(-2px); }
+    .btn-arrow { font-size:18px; }
+    .or-divider {
+      display:flex; align-items:center; gap:14px;
+      color:var(--text-muted); font-size:12px; margin:6px 0 20px;
+    }
+    .or-divider::before, .or-divider::after { content:''; flex:1; height:1px; background:rgba(30,58,47,.1); }
+    .trust-strip {
+      margin-top:40px; padding-top:28px; border-top:1px solid rgba(30,58,47,.08);
+      display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; text-align:center;
+    }
+    .trust-num { font-family:'Playfair Display',serif; font-size:22px; color:var(--green-mid); font-weight:700; }
+    .trust-label { font-size:11px; color:var(--text-muted); margin-top:2px; }
+    @media (max-width:800px) {
+      .page-wrap { grid-template-columns:1fr; }
+      .left-panel { padding:48px 32px; }
+      .right-panel { padding:48px 32px; }
+    }
+  </style>
+</head>
+<body>
+<div class="bg-blob blob1"></div>
+<div class="bg-blob blob2"></div>
+<div class="bg-blob blob3"></div>
+<div class="page-wrap">
+  <!-- LEFT PANEL -->
+  <div class="left-panel">
+    <div class="leaf leaf1">🌿</div>
+    <div class="leaf leaf2">🍃</div>
+    <div class="brand-mark">
+      <div class="brand-icon">🌿</div>
+      <span class="brand-name">SkinAI</span>
+    </div>
+    <span class="hero-tag">✦ AI-Powered Analysis</span>
+    <h1 class="hero-heading">Know Your Skin.<br><em>Transform Your Care.</em></h1>
+    <p class="hero-desc">Upload your photo and our AI will analyze your skin — detecting dark spots, eye bags, skin type, and more — then craft your personalized routine.</p>
+    <div class="feature-list">
+      <div class="feature-item"><div class="feature-dot">🔍</div>Real-time skin type &amp; tone detection</div>
+      <div class="feature-item"><div class="feature-dot">🎯</div>Dark spots &amp; eye bag analysis</div>
+      <div class="feature-item"><div class="feature-dot">📋</div>Personalised product recommendations</div>
+      <div class="feature-item"><div class="feature-dot">🔒</div>Your photos stay private, always</div>
+    </div>
+  </div>
+  <!-- RIGHT PANEL -->
+  <div class="right-panel">
+    <div class="welcome-card">
+      <p class="welcome-eyebrow">Get Started</p>
+      <h2 class="welcome-title">Welcome to SkinAI</h2>
+      <p class="welcome-sub">Sign in to your account or create a new one to begin your personalized skincare journey.</p>
+      <a href="{% url 'login' %}" class="action-btn btn-primary">
+        <span>Sign In to My Account</span><span class="btn-arrow">→</span>
+      </a>
+      <div class="or-divider">or</div>
+      <a href="{% url 'signup' %}" class="action-btn btn-outline">
+        <span>Create a New Account</span><span class="btn-arrow">→</span>
+      </a>
+      <div class="trust-strip">
+        <div><div class="trust-num">99%</div><div class="trust-label">Detection Rate</div></div>
+        <div><div class="trust-num">Free</div><div class="trust-label">Always Free</div></div>
+        <div><div class="trust-num">🔒</div><div class="trust-label">Private &amp; Safe</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

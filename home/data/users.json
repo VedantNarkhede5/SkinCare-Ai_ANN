@@ -1,0 +1,22 @@
+{
+  "users": [
+    {
+      "id": "164d7d98-3f8d-44a5-a2c7-eb66b20e0aec",
+      "username": "vedantnarkhede",
+      "email": "narkhedevedant212@gmail.com",
+      "password": "1b29feb1c368fb6e36b6e38640c64cb7971f6a6cca5d506fd5b7f4f6392a34e6",
+      "first_name": "Vedant",
+      "last_name": "Narkhede",
+      "created_at": "2026-05-21 04:06:36"
+    },
+    {
+      "id": "868a1f90-3691-4a4b-b2b9-b994598b2a7d",
+      "username": "rahulpatil",
+      "email": "rahulpatil@gmail.com",
+      "password": "4c7aba41b40dcdfb2a90451f79d30deade3a8c5873e193555d01ad6daea13595",
+      "first_name": "rahul",
+      "last_name": "patil",
+      "created_at": "2026-05-21 15:50:41"
+    }
+  ]
+}
